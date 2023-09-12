@@ -16,13 +16,6 @@ CUdevice device;
 size_t nstamps = 1024 * 1024 * 1024;
 pthread_barrier_t barrier;
 
-struct execution {
-	CUcontext ctx;
-	CUmodule mod;
-	CUfunction f;
-	CUdeviceptr p;
-};
-
 void cu_error(int status, int errnum, const char *format, ...)
 {
 	const char *errstr;
