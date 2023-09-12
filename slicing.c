@@ -114,7 +114,7 @@ int main(void)
 	nvmlReturn_t nvml_errnum;
 	nvmlDevice_t nvml_dev;
 	unsigned int freq;
-	float now, then, last_other;
+	float now, then, other;
 
 	errnum = cuInit(0);
 	if (errnum != 0)
@@ -172,20 +172,18 @@ int main(void)
 			 */
 			if (stamps[0][i] - last0 > 300) {
 				now = (float)stamps[0][i] / freq / 1000 / 1000;
-				then = (float)last0 / freq / 1000 / 1000;
-				last_other = (float)last1 / freq / 1000 / 1000;
-				printf("0\t%f\t%f\t%f\t%ld\t%ld\n", now, now - then,
-				       now - last_other, stamps[0][i], last1);
+				then = (float)(stamps[0][i] - last0) / freq / 1000 / 1000;
+				other = (float)(stamps[0][i] - last1) / freq / 1000 / 1000;
+				printf("0\t%f\t%f\t%f\n", now, then, other);
 			}
 			last0 = stamps[0][i++];
 		}
 		if (stamps[1][j] < t) {
 			if (stamps[1][j] - last1 > 300) {
 				now = (float)stamps[1][j] / freq / 1000 / 1000;
-				then = (float)last1 / freq / 1000 / 1000;
-				last_other = (float)last0 / freq / 1000 / 1000;
-				printf("1\t%f\t%f\t%f\t%ld\t%ld\n", now, now - then,
-				       now - last_other, stamps[1][j], last0);
+				then = (float)(stamps[1][j] - last1) / freq / 1000 / 1000;
+				other = (float)(stamps[1][j] - last0) / freq / 1000 / 1000;
+				printf("1\t%f\t%f\t%f\n", now, then, other);
 			}
 			last1 = stamps[1][j++];
 		}
