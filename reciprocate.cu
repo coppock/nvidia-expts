@@ -4,6 +4,6 @@ extern "C" {
 		int i;
 
 		for (i = 0; i < n; ++i)
-			a[0] = 1. / a[0];
+			a[blockIdx.x] = 1. / a[blockIdx.x];
 	}
 }
