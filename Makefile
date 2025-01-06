@@ -8,11 +8,19 @@ LDLIBS = -lcuda -lnvidia-ml
 .cu.ptx:
 	nvcc -g -ptx -o $@ $<
 
-all: mig slicing reciprocate.ptx read_clock.ptx
+all: green_ctx_create mig slicing reciprocate.ptx read_clock.ptx
 
-mig: mig.c kernel.c
+bench.o: bench.h
+green_ctx_create.o: bench.h
 
-slicing: slicing.c
+green_ctx_create: green_ctx_create.o bench.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o green_ctx_create green_ctx_create.o \
+	    bench.o $(LDLIBS)
+
+mig.o: kernel.h
+
+mig: mig.o kernel.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o mig mig.o kernel.o $(LDLIBS)
 
 clean:
-	rm -f mig slicing *.ptx
+	rm -f *.o
