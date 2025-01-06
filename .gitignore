@@ -1,4 +1,6 @@
+green_ctx_create
 mig
 serialize
 slicing
+*.o
 *.ptx

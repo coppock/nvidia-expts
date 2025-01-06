@@ -1,6 +1,7 @@
 CUDA_PATH = /usr/local/cuda
 
-CFLAGS = -g -I$(CUDA_PATH)/include -L$(CUDA_PATH)/lib
+CFLAGS = -g -I$(CUDA_PATH)/include
+LDFLAGS = -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs
 LDLIBS = -lcuda -lnvidia-ml
 
 .SUFFIXES: .ptx .cu
