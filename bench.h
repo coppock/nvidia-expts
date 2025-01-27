@@ -8,6 +8,7 @@
 #include <time.h>
 
 #include <cuda.h>
+#include <nvml.h>
 
 #define CHECK(call) do if (call < 0) { \
 	(void)fprintf(stderr, \
@@ -32,6 +33,21 @@
 			(void)fprintf(stderr, " with error %d", \
 				      _check_cu_result); \
 		(void)putchar('\n'); \
+		abort(); \
+	} \
+} while (0)
+
+#define CHECK_NVML(call) do { \
+	nvmlReturn_t _check_nvml_result; \
+	\
+	if ((_check_nvml_result = call) != NVML_SUCCESS) { \
+		const char *s; \
+		\
+		(void)fprintf(stderr, \
+			      __FILE__ ":%d: %s: CUDA call `" #call \
+			      "` failed: %s\n", \
+			      __LINE__, __func__, \
+			      nvmlErrorString(_check_nvml_result)); \
 		abort(); \
 	} \
 } while (0)

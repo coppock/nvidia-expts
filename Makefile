@@ -12,7 +12,11 @@ LDLIBS = -lcuda -lnvidia-ml
 all: green_ctx_create mig slicing reciprocate.ptx read_clock.ptx
 
 bench.o: bench.h
+clocks.o: bench.h
 green_ctx_create.o: bench.h
+
+clocks: clocks.o bench.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o clocks clocks.o bench.o $(LDLIBS)
 
 green_ctx_create: green_ctx_create.o bench.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o green_ctx_create green_ctx_create.o \
